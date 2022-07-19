@@ -21,10 +21,10 @@ update:
 	$(SHELL_PROJECT) " $(CD_PROJECT) && composer update"
 
 start:
-	@docker-compose up -d
+	@cd .. && docker-compose up -d
 
 stop:
-	@docker-compose down
+	@cd .. &&  docker-compose down
 
 entity:
 	$(SHELL_PROJECT) " $(CD_PROJECT) && $(SYMFONY) make:entity"
