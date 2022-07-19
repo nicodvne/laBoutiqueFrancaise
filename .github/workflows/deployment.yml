@@ -37,4 +37,4 @@ jobs:
       # Push image to Google Container Registry
       - name: Push image
         run: |-
-          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/boutiquefrancaisedockerise:$GITHUB_SHA
+          docker push eu.gcr.io/${{ secrets.PROJECT_ID }}/boutiquefrancaisedockerise
