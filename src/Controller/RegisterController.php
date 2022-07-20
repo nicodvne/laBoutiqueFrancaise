@@ -13,8 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class RegisterController extends AbstractController
@@ -43,7 +42,7 @@ class RegisterController extends AbstractController
     /**
      * @Route("/inscription", name="app_register")
      */
-    public function registerAction(Request $request): Response
+    public function registerAction(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
         $form = $this->createForm(RegisterType::class, $user);
@@ -51,7 +50,12 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /* @var User */
             $user = $form->getData();
+
+            $user->setPassword(
+                $encoder->encodePassword($user, $user->getPassword())
+            );
 
             try {
                 $this->entityManager->persist($user);
