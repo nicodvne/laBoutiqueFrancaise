@@ -12,20 +12,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Where i am
-        run: |
-          ls
-
-      - name: Where i am
-        run: |
-          pwd
-
       - name: Auth to GCR and GCP
         uses: google-github-actions/setup-gcloud@v0
         with:
           service_account_key: ${{ secrets.GCP_CREDENTIALS }}
           project_id: ${{ secrets.PROJECT_ID }}
           export_default_credentials: true
+
+      - name: Drop latest tag image in registy
+        run: |
+          gcloud container images delete eu.gcr.io/${{ secrets.PROJECT_ID }}/boutiquefrancaisedockerise --quiet
 
       - name: Build image
         run: |-
